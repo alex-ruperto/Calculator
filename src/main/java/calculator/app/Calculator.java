@@ -93,6 +93,7 @@ public class Calculator extends Application {
         for (Button button : buttons) {
             button.setPrefSize(75, 50); //width, height
         }
+        calcView.setAlignment(Pos.BOTTOM_CENTER);
 
         root.setCenter(calcView);
 
