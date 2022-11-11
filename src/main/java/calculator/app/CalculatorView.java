@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class CalculatorView extends GridPane {
+    ArrayList<Button> buttons = new ArrayList<>();
     public CalculatorView(){
-        ArrayList<Button> buttons = new ArrayList<>();
         setHgap(1); //set horizontal gap between elements
         setVgap(1); // set vertical gap between elements
 
@@ -75,7 +75,8 @@ public class CalculatorView extends GridPane {
         add(equals, 4, 6);
 
         //add all the buttons to the buttons arraylist
-        Collections.addAll(buttons, plusOrMinus, zero, decimal, equals, //
+        Collections.addAll(buttons,
+                plusOrMinus, zero, decimal, equals,
                 one, two, three, plus,
                 four, five, six, minus,
                 seven, eight, nine, times,
@@ -89,4 +90,5 @@ public class CalculatorView extends GridPane {
         setPrefHeight(250);
         setAlignment(Pos.BOTTOM_CENTER);
     }
+
 }
