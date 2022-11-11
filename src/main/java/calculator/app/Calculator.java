@@ -8,6 +8,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+
 public class Calculator extends Application {
 
     BorderPane root;
@@ -16,6 +18,10 @@ public class Calculator extends Application {
     MenuItem Exit = new MenuItem("Exit");
     CalculatorView calcView = new CalculatorView();
     DisplayView displayView = new DisplayView();
+    ArrayList<Long> values = new ArrayList();
+    long currentVal;
+    long lastVal;
+    long result;
 
 
     @Override
@@ -62,10 +68,12 @@ public class Calculator extends Application {
 
         calcView.buttons.get(4).setOnAction(event -> { //referring to the button, one
             displayView.setDisplayText("1");
+            currentVal = 1;
         });
 
         calcView.buttons.get(5).setOnAction(event -> { //referring to the button, two
             displayView.setDisplayText("2");
+            currentVal = 2;
         });
 
         calcView.buttons.get(6).setOnAction(event -> { //referring to the button, three
@@ -74,6 +82,7 @@ public class Calculator extends Application {
 
         calcView.buttons.get(7).setOnAction(event -> { //referring to the button, plus
             displayView.setDisplayText("+");
+            result = currentVal + lastVal;
         });
 
         calcView.buttons.get(8).setOnAction(event -> { //referring to the button, four
