@@ -164,13 +164,12 @@ public class Calculator extends Application {
     }
 
     public String formattedString(ArrayList<String> arrayList){
-        String formattedString = entered.toString()
+        return arrayList.toString()
                 .replace(",", "")
                 .replace("[", "")
                 .replace("]", "")
                 .replace(" ", "")
                 .trim();
-        return formattedString;
     }
 
 
