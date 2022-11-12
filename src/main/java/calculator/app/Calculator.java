@@ -18,13 +18,12 @@ public class Calculator extends Application {
     MenuItem Exit = new MenuItem("Exit");
     CalculatorView calcView = new CalculatorView();
     DisplayView displayView = new DisplayView();
-    ArrayList<Long> values = new ArrayList();
-    long currentVal;
-    long lastVal;
-    long result;
+    ArrayList<Float> values = new ArrayList<>();
+    ArrayList<String> entered = new ArrayList<>();
+    String arithmetic;
 
 
-    @Override
+
     public void start(Stage stage){
 
         stage.setTitle("Calculator App");
@@ -55,46 +54,55 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(1).setOnAction(event -> { //referring to the button, zero
-            displayView.setDisplayText("0");
+            entered.add("0");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(2).setOnAction(event -> { //referring to the button, decimal
-            displayView.setDisplayText(".");
+            entered.add(".");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(3).setOnAction(event -> { //referring to the button, equals
-            displayView.setDisplayText("=");
         });
 
         calcView.buttons.get(4).setOnAction(event -> { //referring to the button, one
-            displayView.setDisplayText("1");
-            currentVal = 1;
+            entered.add("1");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(5).setOnAction(event -> { //referring to the button, two
-            displayView.setDisplayText("2");
-            currentVal = 2;
+            entered.add("2");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(6).setOnAction(event -> { //referring to the button, three
-            displayView.setDisplayText("3");
+            entered.add("3");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(7).setOnAction(event -> { //referring to the button, plus
+            String stringNum = displayView.displayText.getText();
+            values.add(Float.parseFloat(stringNum));
             displayView.setDisplayText("+");
-            result = currentVal + lastVal;
+            arithmetic = "+";
+            displayView.setPreviousText(stringNum);
+            entered.clear();
         });
 
         calcView.buttons.get(8).setOnAction(event -> { //referring to the button, four
-            displayView.setDisplayText("4");
+            entered.add("4");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(9).setOnAction(event -> { //referring to the button, five
-            displayView.setDisplayText("5");
+            entered.add("5");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(10).setOnAction(event -> { //referring to the button, six
-            displayView.setDisplayText("6");
+            entered.add("6");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(11).setOnAction(event -> { //referring to the button, minus
@@ -102,15 +110,18 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(12).setOnAction(event -> { //referring to the button, seven
-            displayView.setDisplayText("7");
+            entered.add("7");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(13).setOnAction(event -> { //referring to the button, eight
-            displayView.setDisplayText("8");
+            entered.add("8");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(14).setOnAction(event -> { //referring to the button, nine
-            displayView.setDisplayText("9");
+            entered.add("9");
+            displayView.setDisplayText(formattedString(entered));
         });
 
         calcView.buttons.get(15).setOnAction(event -> { //referring to the button, times
@@ -143,12 +154,25 @@ public class Calculator extends Application {
 
         calcView.buttons.get(22).setOnAction(event -> { //referring to the button, clearAll
             displayView.setDisplayText("C");
+            values.clear(); //clear the values from values arraylist
+            System.out.println(values);
         });
 
         calcView.buttons.get(23).setOnAction(event -> { //referring to the button, clearAll
             displayView.setDisplayText("⇦");
         });
     }
+
+    public String formattedString(ArrayList<String> arrayList){
+        String formattedString = entered.toString()
+                .replace(",", "")
+                .replace("[", "")
+                .replace("]", "")
+                .replace(" ", "")
+                .trim();
+        return formattedString;
+    }
+
 
     public static void main(String[] args) {
         launch(args);
