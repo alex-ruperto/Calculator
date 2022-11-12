@@ -9,7 +9,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Calculator extends Application {
 
@@ -25,6 +24,7 @@ public class Calculator extends Application {
     int latestValIndex;
     int previousValIndex;
     float result;
+    String stringNum;
 
 
 
@@ -68,16 +68,7 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(3).setOnAction(event -> { //referring to the button, equals
-            if(Objects.equals(arithmetic, "+")){
-                String stringNum = displayView.getDisplayText().getText();
-                values.add(Float.parseFloat(stringNum));
-                latestValIndex = values.size() - 1;
-                previousValIndex = latestValIndex - 1;
-                result = values.get(latestValIndex) + values.get(previousValIndex);
-                displayView.setDisplayText(String.valueOf(result));
-                values.add(result);
-                arithmetic = null;
-            }
+            calculate(arithmetic);
         });
 
         calcView.buttons.get(4).setOnAction(event -> { //referring to the button, one
@@ -96,12 +87,12 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(7).setOnAction(event -> { //referring to the button, plus
-            String stringNum = displayView.getDisplayText().getText();
-            values.add(Float.parseFloat(stringNum));
-            displayView.setDisplayText("+");
-            arithmetic = "+";
-            displayView.setPreviousText(stringNum);
-            entered.clear();
+            stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
+            values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
+            displayView.setDisplayText("+"); //set the displayText to +
+            arithmetic = "+"; //set arithmetic to +, this will communicate with the = sign.
+            displayView.setPreviousText(stringNum); //set te previousText to stringNum
+            entered.clear(); //clear the entered arraylist to start a new set of numbers.
         });
 
         calcView.buttons.get(8).setOnAction(event -> { //referring to the button, four
@@ -120,7 +111,12 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(11).setOnAction(event -> { //referring to the button, minus
-            displayView.setDisplayText("-");
+            stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
+            values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
+            displayView.setDisplayText("-"); //set the displayText to -
+            arithmetic = "-"; //set arithmetic to +, this will communicate with the = sign.
+            displayView.setPreviousText(stringNum); //set te previousText to stringNum
+            entered.clear(); //clear the entered arraylist to start a new set of numbers.
         });
 
         calcView.buttons.get(12).setOnAction(event -> { //referring to the button, seven
@@ -168,9 +164,9 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(22).setOnAction(event -> { //referring to the button, clearAll
-            displayView.setDisplayText("C");
+            displayView.setPreviousText("");
+            displayView.setDisplayText("");
             values.clear(); //clear the values from values arraylist
-            System.out.println(values);
         });
 
         calcView.buttons.get(23).setOnAction(event -> { //referring to the button, clearAll
@@ -185,6 +181,33 @@ public class Calculator extends Application {
                 .replace("]", "")
                 .replace(" ", "")
                 .trim();
+    }
+
+    public void calculate(String arithmetic){
+        switch (arithmetic) {
+            case "+" -> {
+                String stringNum = displayView.getDisplayText().getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = values.get(latestValIndex) + values.get(previousValIndex);
+                displayView.setDisplayText(String.valueOf(result));
+                values.add(result);
+                arithmetic = null;
+            }
+            case "-" -> {
+                String stringNum = displayView.getDisplayText().getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = values.get(previousValIndex) - values.get(latestValIndex);
+                displayView.setDisplayText(String.valueOf(result));
+                values.add(result);
+                arithmetic = null;
+            }
+        }
+
+
     }
 
 
