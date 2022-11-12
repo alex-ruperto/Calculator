@@ -7,8 +7,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 
 public class DisplayView extends HBox {
-    Label displayText = new Label();
-    Label previousText = new Label();
+    private final Label displayText = new Label();
+    private final Label previousText = new Label();
 
     public DisplayView(){
         Region region1 = new Region();
@@ -26,6 +26,10 @@ public class DisplayView extends HBox {
 
     public void setDisplayText(String newText){
         this.displayText.setText(newText);
+    }
+
+    public Label getDisplayText(){
+        return this.displayText;
     }
 
     public void setPreviousText(String newText){

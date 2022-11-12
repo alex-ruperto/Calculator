@@ -69,12 +69,13 @@ public class Calculator extends Application {
 
         calcView.buttons.get(3).setOnAction(event -> { //referring to the button, equals
             if(Objects.equals(arithmetic, "+")){
-                String stringNum = displayView.displayText.getText();
+                String stringNum = displayView.getDisplayText().getText();
                 values.add(Float.parseFloat(stringNum));
                 latestValIndex = values.size() - 1;
                 previousValIndex = latestValIndex - 1;
                 result = values.get(latestValIndex) + values.get(previousValIndex);
                 displayView.setDisplayText(String.valueOf(result));
+                values.add(result);
                 arithmetic = null;
             }
         });
@@ -95,7 +96,7 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(7).setOnAction(event -> { //referring to the button, plus
-            String stringNum = displayView.displayText.getText();
+            String stringNum = displayView.getDisplayText().getText();
             values.add(Float.parseFloat(stringNum));
             displayView.setDisplayText("+");
             arithmetic = "+";
