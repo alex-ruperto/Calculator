@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Calculator extends Application {
 
@@ -19,8 +20,11 @@ public class Calculator extends Application {
     CalculatorView calcView = new CalculatorView();
     DisplayView displayView = new DisplayView();
     ArrayList<Float> values = new ArrayList<>();
-    ArrayList<String> entered = new ArrayList<>();
+    ArrayList<String> entered = new ArrayList<>(); // will be used to store numbers entered to create the 'value'
     String arithmetic;
+    int latestValIndex;
+    int previousValIndex;
+    float result;
 
 
 
@@ -64,6 +68,15 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(3).setOnAction(event -> { //referring to the button, equals
+            if(Objects.equals(arithmetic, "+")){
+                String stringNum = displayView.displayText.getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = values.get(latestValIndex) + values.get(previousValIndex);
+                displayView.setDisplayText(String.valueOf(result));
+                arithmetic = null;
+            }
         });
 
         calcView.buttons.get(4).setOnAction(event -> { //referring to the button, one
@@ -150,6 +163,7 @@ public class Calculator extends Application {
 
         calcView.buttons.get(21).setOnAction(event -> { //referring to the button, clearMostRecent
             displayView.setDisplayText("CE");
+            entered.clear();
         });
 
         calcView.buttons.get(22).setOnAction(event -> { //referring to the button, clearAll
