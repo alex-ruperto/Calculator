@@ -40,6 +40,7 @@ public class Calculator extends Application {
         mainScene.getStylesheets().add("style.css");
         stage.setScene(mainScene);
         stage.show();
+        root.setStyle("-fx-background-image: url('src/main/java/calculator/app/16copia.jpg');");
     }
 
     private void genMenuBar(){
@@ -114,7 +115,7 @@ public class Calculator extends Application {
             stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
             values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
             displayView.setDisplayText("-"); //set the displayText to -
-            arithmetic = "-"; //set arithmetic to +, this will communicate with the = sign.
+            arithmetic = "-"; //set arithmetic to -, this will communicate with the = sign.
             displayView.setPreviousText(stringNum); //set te previousText to stringNum
             entered.clear(); //clear the entered arraylist to start a new set of numbers.
         });
@@ -135,7 +136,13 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(15).setOnAction(event -> { //referring to the button, times
-            displayView.setDisplayText("×");
+            stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
+            values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
+            displayView.setDisplayText("×"); // set display text to times
+            arithmetic = "x"; //set arithmetic to x, this will communicate with the = sign.
+            displayView.setPreviousText(stringNum); //set te previousText to stringNum
+            entered.clear(); //clear the entered arraylist to start a new set of numbers.
+
         });
 
         calcView.buttons.get(16).setOnAction(event -> { //referring to the button, oneOverX
@@ -190,20 +197,28 @@ public class Calculator extends Application {
                 values.add(Float.parseFloat(stringNum));
                 latestValIndex = values.size() - 1;
                 previousValIndex = latestValIndex - 1;
-                result = values.get(latestValIndex) + values.get(previousValIndex);
-                displayView.setDisplayText(String.valueOf(result));
-                values.add(result);
-                arithmetic = null;
+                result = values.get(latestValIndex) + values.get(previousValIndex); //latestVal + previousVal
+                displayView.setDisplayText(String.valueOf(result)); //set the displayText to string value of result
+                values.add(result); //add the result to values
             }
             case "-" -> {
                 String stringNum = displayView.getDisplayText().getText();
                 values.add(Float.parseFloat(stringNum));
                 latestValIndex = values.size() - 1;
                 previousValIndex = latestValIndex - 1;
-                result = values.get(previousValIndex) - values.get(latestValIndex);
-                displayView.setDisplayText(String.valueOf(result));
-                values.add(result);
-                arithmetic = null;
+                result = values.get(previousValIndex) - values.get(latestValIndex); //subtract previous val and latest val
+                displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
+                values.add(result); //add the result to values
+            }
+            case "x" -> {
+                String stringNum = displayView.getDisplayText().getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = values.get(previousValIndex) * values.get(latestValIndex); //multiply previous val and latest val
+                displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
+                values.add(result); //add the result to values
+
             }
         }
 

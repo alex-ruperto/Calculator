@@ -1,6 +1,12 @@
 .root{
-    -fx-background:white;
+    -fx-font-family: 'JetBrains Mono';
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+
 }
 .button{
-    -fx-color:green;
+    -fx-base:lightblue;
+}
+.label {
+    -fx-text-fill: lightblue;
 }
