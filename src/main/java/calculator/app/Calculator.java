@@ -40,7 +40,6 @@ public class Calculator extends Application {
         mainScene.getStylesheets().add("style.css");
         stage.setScene(mainScene);
         stage.show();
-        root.setStyle("-fx-background-image: url('src/main/java/calculator/app/16copia.jpg');");
     }
 
     private void genMenuBar(){
@@ -54,7 +53,9 @@ public class Calculator extends Application {
     }
 
     private void setFunctionality(){
+        //TODO set functionality for plusOrMinus
         calcView.buttons.get(0).setOnAction(event -> { //referring to the button, plusOrMinus
+            entered.set(0, "-");
             displayView.setDisplayText("±");
         });
 
@@ -69,7 +70,17 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(3).setOnAction(event -> { //referring to the button, equals
-            calculate(arithmetic);
+            try { //start try catch block
+                if (displayView.getDisplayText().getText().isEmpty()) { //if displayView text is empty
+                    throw new NoValuesPressedException("Error"); //throw this exception
+                } else if (displayView.getDisplayText().getText().contains("Error")){ //or if it contains "Error"
+                    throw new NoValuesPressedException("Error"); //throw this exception
+                } else { //otherwise
+                    calculate(arithmetic); //run arithmetic method
+                }
+            } catch (NoValuesPressedException er){ //catch thrown exception
+                displayView.setDisplayText(er.getMessage()); //set displayView text to error message
+            }
         });
 
         calcView.buttons.get(4).setOnAction(event -> { //referring to the button, one
@@ -88,12 +99,8 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(7).setOnAction(event -> { //referring to the button, plus
-            stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
-            values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
-            displayView.setDisplayText("+"); //set the displayText to +
-            arithmetic = "+"; //set arithmetic to +, this will communicate with the = sign.
-            displayView.setPreviousText(stringNum); //set te previousText to stringNum
-            entered.clear(); //clear the entered arraylist to start a new set of numbers.
+            ////call the operationException method then call the operationAction method.
+            operationException(() -> operationAction("+"));
         });
 
         calcView.buttons.get(8).setOnAction(event -> { //referring to the button, four
@@ -112,12 +119,8 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(11).setOnAction(event -> { //referring to the button, minus
-            stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
-            values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
-            displayView.setDisplayText("-"); //set the displayText to -
-            arithmetic = "-"; //set arithmetic to -, this will communicate with the = sign.
-            displayView.setPreviousText(stringNum); //set te previousText to stringNum
-            entered.clear(); //clear the entered arraylist to start a new set of numbers.
+            //call the operationException method then call the operationAction method.
+            operationException(() -> operationAction("-"));
         });
 
         calcView.buttons.get(12).setOnAction(event -> { //referring to the button, seven
@@ -136,48 +139,51 @@ public class Calculator extends Application {
         });
 
         calcView.buttons.get(15).setOnAction(event -> { //referring to the button, times
-            stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
-            values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
-            displayView.setDisplayText("×"); // set display text to times
-            arithmetic = "x"; //set arithmetic to x, this will communicate with the = sign.
-            displayView.setPreviousText(stringNum); //set te previousText to stringNum
-            entered.clear(); //clear the entered arraylist to start a new set of numbers.
-
+            //call the operationException method then call the operationAction method.
+            operationException(() -> operationAction("×"));
         });
 
+        //TODO SET FUNCTIONALITY FOR 1/x
         calcView.buttons.get(16).setOnAction(event -> { //referring to the button, oneOverX
-            displayView.setDisplayText("1/x");
+            //call the operationException method then call the operationAction method
+            operationException(() -> operationAction("1/X"));
         });
 
         calcView.buttons.get(17).setOnAction(event -> { //referring to the button, xPowerTwo
-            displayView.setDisplayText("x²");
+            //call the operationException method then call the operationAction method
+            operationException(() -> operationAction("x²"));
         });
 
+        //TODO SET FUNCTIONALITY FOR √x
         calcView.buttons.get(18).setOnAction(event -> { //referring to the button, squareRoot
-            displayView.setDisplayText("√x");
+            //call the operationException method then call the operationAction method
+            operationException(() -> operationAction("√x"));
         });
 
         calcView.buttons.get(19).setOnAction(event -> { //referring to the button, divide
-            displayView.setDisplayText("÷");
+            //call the operationException method then call the operationAction method
+            operationException(() -> operationAction("÷"));
         });
 
         calcView.buttons.get(20).setOnAction(event -> { //referring to the button, modulo
-            displayView.setDisplayText("%");
+            //call the operationException method then call the operationAction method
+            operationException(() -> operationAction("%"));
         });
 
         calcView.buttons.get(21).setOnAction(event -> { //referring to the button, clearMostRecent
-            displayView.setDisplayText("CE");
             entered.clear();
         });
 
         calcView.buttons.get(22).setOnAction(event -> { //referring to the button, clearAll
             displayView.setPreviousText("");
             displayView.setDisplayText("");
+            displayView.setOperationText("");
             values.clear(); //clear the values from values arraylist
         });
 
-        calcView.buttons.get(23).setOnAction(event -> { //referring to the button, clearAll
-            displayView.setDisplayText("⇦");
+        //TODO SET FUNCTIONALITY FOR ⇦
+        calcView.buttons.get(23).setOnAction(event -> { //referring to the button, backSpace
+            operationException(() -> operationAction("⇦"));
         });
     }
 
@@ -210,7 +216,7 @@ public class Calculator extends Application {
                 displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
                 values.add(result); //add the result to values
             }
-            case "x" -> {
+            case "×" -> {
                 String stringNum = displayView.getDisplayText().getText();
                 values.add(Float.parseFloat(stringNum));
                 latestValIndex = values.size() - 1;
@@ -220,11 +226,59 @@ public class Calculator extends Application {
                 values.add(result); //add the result to values
 
             }
+            case "÷" -> {
+                String stringNum = displayView.getDisplayText().getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = values.get(previousValIndex) / values.get(latestValIndex); //divide previous val and latest val
+                displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
+                values.add(result); //add the result to values
+
+            }
+            case "%" ->{
+                String stringNum = displayView.getDisplayText().getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = values.get(previousValIndex) % values.get(latestValIndex); //divide previous val and latest val
+                displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
+                values.add(result); //add the result to values
+            }
+            case "x²" -> {
+                String stringNum = displayView.getDisplayText().getText();
+                values.add(Float.parseFloat(stringNum));
+                latestValIndex = values.size() - 1;
+                previousValIndex = latestValIndex - 1;
+                result = (float) Math.pow(values.get(latestValIndex), 2); //divide previous val and latest val
+                displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
+                values.add(result); //add the result to values
+            }
         }
-
-
     }
 
+    public void operationAction(String operation){
+        stringNum = displayView.getDisplayText().getText(); //set stringNum equal to the text from displayText
+        values.add(Float.parseFloat(stringNum)); // add the stringNum value to values by parsing to float
+        displayView.setOperationText(operation); //set the displayText to operation
+        arithmetic = operation; //set arithmetic to operation, this will communicate with the = sign.
+        displayView.setPreviousText(stringNum); //set te previousText to stringNum
+        entered.clear(); //clear the entered arraylist to start a new set of numbers.
+    }
+
+    public void operationException(Runnable function) { //THIS WILL SHORTEN AMOUNT OF CODE IN setFunctionality()
+        try { //start try catch block
+            if (displayView.getDisplayText().getText().isEmpty()) { //if displayView text is empty
+                throw new NoValuesPressedException("Error"); //throw this exception
+            } else if (displayView.getDisplayText().getText().contains("Error")){ //or if it contains "Error"
+                throw new NoValuesPressedException("Error"); //throw this exception
+            } else { //otherwise
+                function.run(); //run generic method
+            }
+        } catch (NoValuesPressedException er){ //catch thrown exception
+            displayView.setDisplayText(er.getMessage()); //set displayView text to error message
+        }
+    }
 
     public static void main(String[] args) {
         launch(args);

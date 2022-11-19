@@ -1,12 +1,46 @@
 .root{
     -fx-font-family: 'JetBrains Mono';
     -fx-font-size: 10px;
+    -fx-background-image: url("Polygon01.png");
+    -fx-background-size: stretch;
     -fx-font-weight: bold;
+}
 
-}
-.button{
-    -fx-base:lightblue;
-}
 .label {
-    -fx-text-fill: lightblue;
+    -fx-text-fill: black;
+}
+
+.button{
+    -fx-background-radius: 0;
+}
+
+.fancy-button{
+    -fx-background-color: darkgrey;
+    -fx-text-fill: white;
+    -fx-opacity: 0.7;
+}
+
+.fancy-button:hover{
+    -fx-background-color: white;
+    -fx-text-fill: red;
+}
+
+.fancy-button:pressed{
+    -fx-background-color: lightblue;
+    -fx-text-fill: white
+}
+
+.displayText-label{
+    -fx-font-size: 20px;
+}
+
+.previousText-label{
+    -fx-font-size: 20px;
+    -fx-translate-x: -40;
+}
+
+.operationText-label{
+    -fx-font-size: 20px;
+    -fx-translate-x: -60;
+    -fx-translate-y: 30;
 }

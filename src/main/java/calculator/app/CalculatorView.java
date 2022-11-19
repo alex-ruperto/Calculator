@@ -10,9 +10,8 @@ import java.util.Collections;
 public class CalculatorView extends GridPane {
     ArrayList<Button> buttons = new ArrayList<>();
     public CalculatorView(){
-        setHgap(1); //set horizontal gap between elements
-        setVgap(1); // set vertical gap between elements
-
+        setHgap(0); //set horizontal gap between elements
+        setVgap(0); // set vertical gap between elements
         // when adding to CalculatorView, go by column then row
         //row 1
         Button modulo = new Button("%");
@@ -84,11 +83,20 @@ public class CalculatorView extends GridPane {
                 modulo, clearMostRecent, clearAll, backSpace);
 
         for (Button button : buttons) {
-            button.setPrefSize(75, 50); //width, height
+            button.setPrefSize(75, 50); //width, height preferred size
+            //allow buttons to resize according to how user resizes the window.
+            button.prefWidthProperty().bind(this.widthProperty());
+            button.prefHeightProperty().bind(this.heightProperty());
         }
+        makePretty(); //call makePretty method
+        setPrefHeight(250); //set the prefHeight to half of the app size
+        setAlignment(Pos.BOTTOM_CENTER); //make gridpane go to buttom
+    }
 
-        setPrefHeight(250);
-        setAlignment(Pos.BOTTOM_CENTER);
+    private void makePretty(){ //fancy-button will be used in style.css. allows for "fancy buttons"
+        for (Button button : buttons){
+            button.getStyleClass().add("fancy-button");
+        }
     }
 
 }
