@@ -9,6 +9,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Calculator extends Application {
 
@@ -52,11 +53,27 @@ public class Calculator extends Application {
         root.setTop(menuBar); //set menuBar to the top of root
     }
 
+    public void swap(int i, int j) {
+        int temp1;
+        temp1 = i;
+        i = j;
+        j = temp1;
+    }
+
+
     private void setFunctionality(){
         //TODO set functionality for plusOrMinus
         calcView.buttons.get(0).setOnAction(event -> { //referring to the button, plusOrMinus
-            entered.set(0, "-");
-            displayView.setDisplayText("±");
+            entered.add("-");
+            System.out.println(formattedString(entered));
+            if(entered.get(0).equals("-")){
+                displayView.setDisplayText(formattedString(entered));
+            } else {
+                System.out.println(formattedString(entered));
+                swap(entered.indexOf(entered.contains("-")), entered.indexOf(entered.get(0)));
+                displayView.setDisplayText(formattedString(entered));
+            }
+
         });
 
         calcView.buttons.get(1).setOnAction(event -> { //referring to the button, zero
