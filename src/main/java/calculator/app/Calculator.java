@@ -53,27 +53,16 @@ public class Calculator extends Application {
         root.setTop(menuBar); //set menuBar to the top of root
     }
 
-    public void swap(int i, int j) {
-        int temp1;
-        temp1 = i;
-        i = j;
-        j = temp1;
-    }
-
 
     private void setFunctionality(){
-        //TODO set functionality for plusOrMinus
         calcView.buttons.get(0).setOnAction(event -> { //referring to the button, plusOrMinus
             entered.add("-");
-            System.out.println(formattedString(entered));
-            if(entered.get(0).equals("-")){
-                displayView.setDisplayText(formattedString(entered));
-            } else {
-                System.out.println(formattedString(entered));
-                swap(entered.indexOf(entered.contains("-")), entered.indexOf(entered.get(0)));
-                displayView.setDisplayText(formattedString(entered));
+            if (entered.indexOf("-") != 0) { //if indexOf "-" is not 0
+                entered.add(0, null); //add a null element at index 0
+                Collections.swap(entered, entered.indexOf("-"), entered.indexOf(null)); //swap "-" with null element at index 0
+                entered.remove(null); //remove null element from entered
             }
-
+            displayView.setDisplayText(formattedString(entered)); //set the displayView displayText to entered
         });
 
         calcView.buttons.get(1).setOnAction(event -> { //referring to the button, zero
