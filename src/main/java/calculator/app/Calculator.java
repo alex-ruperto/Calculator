@@ -144,10 +144,9 @@ public class Calculator extends Application {
             operationException(() -> operationAction("×"));
         });
 
-        //TODO SET FUNCTIONALITY FOR 1/x
         calcView.buttons.get(16).setOnAction(event -> { //referring to the button, oneOverX
             //call the operationException method then call the operationAction method
-            operationException(() -> operationAction("1/X"));
+            operationException(() -> operationAction("1/x"));
         });
 
         calcView.buttons.get(17).setOnAction(event -> { //referring to the button, xPowerTwo
@@ -182,10 +181,9 @@ public class Calculator extends Application {
             values.clear(); //clear the values from values arraylist
         });
 
-        //TODO SET FUNCTIONALITY FOR ⇦
         calcView.buttons.get(23).setOnAction(event -> { //referring to the button, backSpace
-            //call the operationException method then call the operationAction method
-            operationException(() -> operationAction("⇦"));
+            //call the operationException method then pass in the backspace method
+            operationException(this::backspace);
         });
     }
 
@@ -239,6 +237,18 @@ public class Calculator extends Application {
                 displayView.setDisplayText(String.valueOf(result));//set the displayText to string value of result
                 values.add(result); //add the result to values
             }
+            case "1/x" -> {
+                initializeStringNum(); // call initializeStringNum method.
+                result = (float) Math.pow(values.get(latestValIndex), -1); //cast float to Math.pow function. The inverse is essentially just x^-1. 5 inverse would be 1/5 or 0.2.
+                displayView.setDisplayText(String.valueOf(result)); //set the displayText to string value of result
+                values.add(result); //add result to values
+            }
+            case "√x" -> {
+                initializeStringNum(); //call initializeStringNum method
+                result = (float) Math.pow(values.get(latestValIndex), 0.5); //cast float to Math.pow function. square root is the same as x^(1/2)
+                displayView.setDisplayText(String.valueOf(result));
+                values.add(result);
+            }
         }
     }
 
@@ -271,6 +281,11 @@ public class Calculator extends Application {
         } catch (NoValuesPressedException er){ //catch thrown exception
             displayView.setDisplayText(er.getMessage()); //set displayView text to error message
         }
+    }
+
+    private void backspace(){
+        entered.remove(entered.size()-1);
+        displayView.setDisplayText(String.valueOf(formattedString(entered)));
     }
 
     public static void main(String[] args) {
